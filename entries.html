@@ -1,0 +1,117 @@
+<form ng-controller="FormController" name="entriesForm" class="form-horizontal" ng-disabled="{{submiting}}" novalidate ng-submit="submit()">
+<fieldset>
+
+<!-- Date -->
+<div class="form-group">
+	<label class="col-md-2 control-label">Date</label>
+	<div class="col-md-4">
+		<div class="input-group">
+			<input name="date"
+				ng-model="date"
+				type="date"
+				class="form-control"
+				ng-required="true"/>
+			<span class="input-group-addon">
+				<span class="glyphicon glyphicon-calendar"></span>
+			</span>
+		</div>
+	</div>
+	<label class="col-md-2 control-label">Sum days</label>
+	<div class="col-md-4">
+		<div class="input-group">
+			<span class="form-control">{{sumDays()}}</span>
+			<span class="input-group-addon">
+				<span>&times; days</span>
+			</span>
+		</div>
+	</div>
+</div>
+
+<!-- Entries -->
+<div ng-repeat="entry in entries">
+	<!-- Project -->
+	<div class="form-group">
+		<label class="col-md-2 control-label">Entry</label>
+		<div class="col-md-4">
+			<div class="input-group">
+				<select name="project"
+					class="form-control"
+					placeholder="project name"
+					ng-model="entry.project"
+					ng-options="project.name group by project.group for project in projects"
+					ng-required="true"
+					ng-disabled="!loaded">
+				</select>
+				<span class="input-group-addon">
+					<span ng-show="projects.length" class="glyphicon glyphicon-shopping-cart"></span>
+					<span ng-hide="projects.length" class="glyphicon glyphicon-refresh"></span>
+				</span>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="input-group">
+				<input name="days"
+					ng-model="entry.days"
+					type="number"
+					pattern="\d*(\.\d*)?"
+					class="form-control"
+					placeholder="days"
+					ng-required="true"
+					ng-disabled="!loaded"/>
+				<span class="input-group-addon">
+					<span>&times; days</span>
+				</span>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<button type="button"
+				class="btn btn-block btn-danger"
+				ng-click="remove($index)"
+				ng-disabled="!loaded">
+				<span class="glyphicon glyphicon-trash"></span>
+				<span>Delete entry</span>
+			</button>
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-md-8 col-md-offset-2">
+		<button type="button"
+			class="btn btn-block btn-success"
+			ng-click="add()"
+			ng-disabled="!loaded">
+			<span class="glyphicon glyphicon-plus"></span>
+			<span>Add entry</span>
+		</button>
+	</div>
+</div>
+
+<div class="form-group">
+	<div class="col-md-10 col-md-offset-2">
+		<hr/>
+	</div>
+</div>
+
+<div class="form-group">
+	<!-- Submit -->
+	<div class="col-md-3 col-md-offset-2">
+		<button type="button"
+			class="btn btn-block btn-danger"
+			ng-click="reset()"
+			ng-disabled="!loaded">
+			<span class="glyphicon glyphicon-trash"></span>
+			<span>Reset</span>
+		</button>
+	</div>
+	<div class="col-md-3 col-md-offset-4">
+		<button type="submit"
+			class="btn btn-block btn-primary"
+			ng-disabled="!loaded">
+			<span class="glyphicon glyphicon-ok"></span>
+			Submit
+		</button>
+	</div>
+</div>
+</fieldset>
+</form>
